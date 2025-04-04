@@ -1,0 +1,109 @@
+{
+  "general": {
+    "app_name": "Angel Interactive Assistant",
+    "debug_mode": false,
+    "language": "fr",
+    "log_level": "info"
+  },
+  "angel_server": {
+    "api_url": "http://localhost:8000/api",
+    "polling_interval_ms": 1000,
+    "connection_timeout_ms": 5000,
+    "activities": [
+      "manger", "dormir", "regarder_tv", "lire", "parler_telephone",
+      "exercice", "cuisine", "nettoyage", "inactif", "inconnu"
+    ]
+  },
+  "decision_engine": {
+    "threshold_confidence": 0.7,
+    "learning_rate": 0.01,
+    "user_feedback_weight": 0.8,
+    "decision_rules": {
+      "manger": ["diffuser_musique", "suggerer_boisson"],
+      "dormir": ["silence"],
+      "inactif": ["raconter_histoire", "engager_conversation", "suggerer_activite"],
+      "regarder_tv": ["recommander_programme"],
+      "default": ["engager_conversation"]
+    }
+  },
+  "content_generation": {
+    "ai_provider": "claude",
+    "api_key": "YOUR_API_KEY",
+    "max_tokens": 500,
+    "temperature": 0.7,
+    "stories": {
+      "max_duration_sec": 180,
+      "categories": ["aventure", "humour", "culture"]
+    },
+    "conversations": {
+      "max_turns": 10,
+      "topics": ["actualités", "santé", "loisirs", "culture"]
+    }
+  },
+  "tts": {
+    "provider": "elevenlabs",
+    "api_key": "YOUR_ELEVENLABS_API_KEY",
+    "voice_id": "french_female_1",
+    "speaking_rate": 1.0,
+    "pitch": 0.0
+  },
+  "stt": {
+    "provider": "google",
+    "api_key": "YOUR_GOOGLE_API_KEY",
+    "language_code": "fr-FR",
+    "model": "latest_long"
+  },
+  "avatar": {
+    "type": "3d", 
+    "model_path": "assets/models/female_v1.glb",
+    "animations": {
+      "talking": "assets/animations/talking.json",
+      "listening": "assets/animations/listening.json",
+      "idle": "assets/animations/idle.json",
+      "thinking": "assets/animations/thinking.json"
+    },
+    "expressions": {
+      "happy": "assets/animations/happy.json",
+      "neutral": "assets/animations/neutral.json",
+      "concerned": "assets/animations/concerned.json"
+    }
+  },
+  "devices": {
+    "tv": {
+      "type": "smart_tv",
+      "ip": "192.168.1.100",
+      "protocol": "http",
+      "port": 8080
+    },
+    "music_player": {
+      "type": "sonos",
+      "ip": "192.168.1.101",
+      "playlists": {
+        "repas": "playlist_repas",
+        "ambiance": "playlist_ambiance",
+        "detente": "playlist_detente"
+      }
+    },
+    "lights": {
+      "type": "philips_hue",
+      "bridge_ip": "192.168.1.102",
+      "username": "YOUR_HUE_USERNAME"
+    }
+  },
+  "database": {
+    "type": "mongodb",
+    "url": "mongodb://localhost:27017",
+    "db_name": "angel_assistant",
+    "collections": {
+      "users": "users",
+      "interactions": "interactions",
+      "preferences": "preferences",
+      "activities": "activities"
+    }
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 3000,
+    "cors_origins": ["*"]
+  }
+}

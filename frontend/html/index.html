@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angel Interactive Assistant</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/avatar.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Angel Interactive Assistant</h1>
+            <div class="status-badge">
+                <span class="status-indicator online"></span>
+                <span class="status-text">En ligne</span>
+            </div>
+        </header>
+
+        <main>
+            <div class="current-activity">
+                <h2>Activité détectée</h2>
+                <div class="activity-display">
+                    <div class="activity-icon">
+                        <i class="fas fa-question"></i>
+                    </div>
+                    <div class="activity-info">
+                        <div class="activity-name">En attente...</div>
+                        <div class="activity-confidence">
+                            <div class="confidence-bar">
+                                <div class="confidence-level" style="width: 0%"></div>
+                            </div>
+                            <span class="confidence-text">0%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="avatar-container">
+                <div id="avatar-element"></div>
+                <div class="avatar-controls">
+                    <button id="btn-mute" class="control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <button id="btn-stop" class="control-btn">
+                        <i class="fas fa-stop"></i>
+                    </button>
+                    <button id="btn-settings" class="control-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="recommendations">
+                <h2>Suggestions</h2>
+                <div id="recommendations-list" class="recommendations-list">
+                    <div class="recommendation-card placeholder">
+                        <div class="recommendation-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <div class="recommendation-content">
+                            <h3>En attente d'activité...</h3>
+                            <p>Les suggestions apparaîtront ici une fois qu'une activité sera détectée.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="control-panel">
+            <div class="panel-section">
+                <h3>Contrôle des appareils</h3>
+                <div class="device-controls">
+                    <div class="device-group">
+                        <h4>Musique</h4>
+                        <div class="device-buttons">
+                            <button class="device-btn" data-device="music_player" data-action="turn_on">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <button class="device-btn" data-device="music_player" data-action="turn_off">
+                                <i class="fas fa-stop"></i>
+                            </button>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-down"></i>
+                                <input type="range" min="0" max="100" value="50" class="volume-slider" 
+                                    data-device="music_player">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="device-group">
+                        <h4>Télévision</h4>
+                        <div class="device-buttons">
+                            <button class="device-btn" data-device="tv" data-action="turn_on">
+                                <i class="fas fa-power-off"></i>
+                            </button>
+                            <button class="device-btn" data-device="tv" data-action="turn_off">
+                                <i class="fas fa-times"></i>
+                            </button>
+                            <div class="volume-control">
+                                <i class="fas fa-volume-down"></i>
+                                <input type="range" min="0" max="100" value="50" class="volume-slider" 
+                                    data-device="tv">
+                                <i class="fas fa-volume-up"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="device-group">
+                        <h4>Lumières</h4>
+                        <div class="device-buttons">
+                            <button class="device-btn" data-device="lights" data-action="turn_on">
+                                <i class="fas fa-lightbulb"></i>
+                            </button>
+                            <button class="device-btn" data-device="lights" data-action="turn_off">
+                                <i class="far fa-lightbulb"></i>
+                            </button>
+                            <div class="scene-selector">
+                                <select class="scene-dropdown" data-device="lights">
+                                    <option value="normal">Normal</option>
+                                    <option value="relax">Relaxation</option>
+                                    <option value="movie">Cinéma</option>
+                                    <option value="dinner">Dîner</option>
+                                </select>
+                                <button class="scene-apply-btn" data-device="lights">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel-section">
+                <h3>Scénarios</h3>
+                <div class="scenario-buttons">
+                    <button class="scenario-btn" data-scenario="movie_time">
+                        <i class="fas fa-film"></i>
+                        <span>Mode Cinéma</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="dinner_music">
+                        <i class="fas fa-utensils"></i>
+                        <span>Mode Dîner</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="relax_mode">
+                        <i class="fas fa-couch"></i>
+                        <span>Mode Détente</span>
+                    </button>
+                    <button class="scenario-btn" data-scenario="all_off">
+                        <i class="fas fa-power-off"></i>
+                        <span>Tout éteindre</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="panel-section">
+                <h3>Historique d'activité</h3>
+                <div class="activity-history">
+                    <ul id="activity-history-list">
+                        <li class="history-item">
+                            <span class="history-time">--:--</span>
+                            <span class="history-activity">En attente de détection...</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+        
+        <div class="conversation-panel" id="conversation-panel">
+            <div class="conversation-header">
+                <h3>Conversation</h3>
+                <button class="close-panel-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="conversation-messages" id="conversation-messages">
+                <!-- Les messages de conversation apparaîtront ici -->
+            </div>
+            <div class="conversation-input">
+                <input type="text" id="user-message-input" placeholder="Tapez votre message...">
+                <button id="send-message-btn">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Templates pour le contenu dynamique -->
+    <template id="recommendation-template">
+        <div class="recommendation-card">
+            <div class="recommendation-icon">
+                <i class="__ICON__"></i>
+            </div>
+            <div class="recommendation-content">
+                <h3>__TITLE__</h3>
+                <p>__DESCRIPTION__</p>
+                <div class="recommendation-actions">
+                    <button class="action-btn accept" data-id="__ID__">
+                        <i class="fas fa-check"></i> Accepter
+                    </button>
+                    <button class="action-btn reject" data-id="__ID__">
+                        <i class="fas fa-times"></i> Ignorer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <template id="conversation-message-template">
+        <div class="message __SENDER_CLASS__">
+            <div class="message-bubble">
+                <p>__MESSAGE__</p>
+            </div>
+            <div class="message-time">__TIME__</div>
+        </div>
+    </template>
+    
+    <div id="notification-container" class="notification-container"></div>
+    
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Paramètres</h2>
+                <button class="close-modal-btn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-section">
+                    <h3>Avatar</h3>
+                    <div class="settings-group">
+                        <label for="avatar-type">Type d'avatar:</label>
+                        <select id="avatar-type">
+                            <option value="3d">3D</option>
+                            <option value="2d">2D (économie de ressources)</option>
+                        </select>
+                    </div>
+                    <div class="settings-group">
+                        <label for="avatar-voice">Voix:</label>
+                        <select id="avatar-voice">
+                            <option value="female_1">Féminine 1</option>
+                            <option value="female_2">Féminine 2</option>
+                            <option value="male_1">Masculine 1</option>
+                            <option value="male_2">Masculine 2</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Préférences de contenu</h3>
+                    <div class="settings-group">
+                        <label>Genres musicaux préférés:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="music-genres" value="classique"> Classique</label>
+                            <label><input type="checkbox" name="music-genres" value="jazz"> Jazz</label>
+                            <label><input type="checkbox" name="music-genres" value="pop"> Pop</label>
+                            <label><input type="checkbox" name="music-genres" value="rock"> Rock</label>
+                            <label><input type="checkbox" name="music-genres" value="ambiance"> Ambiance</label>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <label>Programmes TV préférés:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="tv-programs" value="films"> Films</label>
+                            <label><input type="checkbox" name="tv-programs" value="documentaires"> Documentaires</label>
+                            <label><input type="checkbox" name="tv-programs" value="séries"> Séries</label>
+                            <label><input type="checkbox" name="tv-programs" value="actualités"> Actualités</label>
+                        </div>
+                    </div>
+                    <div class="settings-group">
+                        <label>Thèmes d'histoires préférés:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" name="story-topics" value="aventure"> Aventure</label>
+                            <label><input type="checkbox" name="story-topics" value="histoire"> Histoire</label>
+                            <label><input type="checkbox" name="story-topics" value="science"> Science</label>
+                            <label><input type="checkbox" name="story-topics" value="humour"> Humour</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h3>Système</h3>
+                    <div class="settings-group">
+                        <label for="api-url">URL de l'API:</label>
+                        <input type="text" id="api-url" value="http://localhost:3000">
+                    </div>
+                    <div class="settings-group">
+                        <label for="angel-server-url">URL d'Angel-server-capture:</label>
+                        <input type="text" id="angel-server-url" value="http://localhost:8000">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="save-settings-btn" class="primary-btn">Enregistrer</button>
+                <button id="cancel-settings-btn" class="secondary-btn">Annuler</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="../javascript/avatar-controller.js"></script>
+    <script src="../javascript/api-client.js"></script>
+    <script src="../javascript/app.js"></script>
+</body>
+</html>

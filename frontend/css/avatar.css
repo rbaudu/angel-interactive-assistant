@@ -1,0 +1,160 @@
+/* Styles pour l'avatar 2D et 3D */
+
+/* Avatar 2D */
+.avatar-2d {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-head {
+  width: 200px;
+  height: 250px;
+  background-color: #ffdbb4; /* Couleur de peau */
+  border-radius: 50% 50% 40% 40% / 60% 60% 40% 40%;
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.avatar-face {
+  position: absolute;
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar-eyes {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin-bottom: 30px;
+}
+
+.avatar-eye {
+  width: 30px;
+  height: 20px;
+  background-color: #fff;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.avatar-eye::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  background-color: #3b3b3b;
+  border-radius: 50%;
+  top: 2px;
+  left: 7px;
+}
+
+.avatar-mouth {
+  width: 60px;
+  height: 5px;
+  background-color: #c44;
+  border-radius: 10px;
+  transition: height 0.1s ease;
+}
+
+/* Expressions */
+.expression-neutral .avatar-mouth {
+  width: 60px;
+  height: 5px;
+  border-radius: 10px;
+}
+
+.expression-happy .avatar-mouth {
+  width: 60px;
+  height: 20px;
+  border-radius: 0 0 30px 30px;
+  background-color: #c44;
+}
+
+.expression-happy .avatar-eye {
+  height: 15px;
+  border-radius: 50% 50% 0 0;
+}
+
+.expression-concerned .avatar-mouth {
+  width: 60px;
+  height: 10px;
+  border-radius: 30px 30px 0 0;
+  background-color: #c44;
+  transform: translateY(5px);
+}
+
+.expression-thinking .avatar-mouth {
+  width: 30px;
+  height: 5px;
+  border-radius: 10px;
+  transform: translateX(-10px);
+}
+
+.expression-thinking .avatar-eye::after {
+  transform: translateY(-5px);
+}
+
+/* Animations */
+@keyframes blinking {
+  0%, 45%, 55%, 100% { 
+    transform: scaleY(1);
+  }
+  50% { 
+    transform: scaleY(0.1);
+  }
+}
+
+@keyframes talking {
+  0%, 100% { height: 5px; }
+  25% { height: 15px; }
+  50% { height: 10px; }
+  75% { height: 20px; }
+}
+
+@keyframes thinking {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(2deg); }
+  75% { transform: rotate(-2deg); }
+}
+
+@keyframes idle-sway {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+}
+
+.anim-idle .avatar-eye::after {
+  animation: blinking 4s infinite;
+}
+
+.anim-idle .avatar-head {
+  animation: idle-sway 6s ease-in-out infinite;
+}
+
+.anim-talking .avatar-mouth {
+  animation: talking 0.3s infinite;
+}
+
+.anim-listening .avatar-eye::after {
+  animation: blinking 2s infinite;
+}
+
+.anim-thinking {
+  animation: thinking 2s ease-in-out infinite;
+}
+
+/* Styles pour l'avatar 3D */
+#avatar-element canvas {
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
